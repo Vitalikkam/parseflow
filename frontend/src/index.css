@@ -4,7 +4,19 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #fafafa;
-  color: #111;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .panel {
+    @apply bg-white border border-slate-200 rounded-lg transition-all;
+  }
+  .panel:hover {
+    @apply border-slate-300 shadow-sm;
+  }
 }

@@ -8,25 +8,27 @@ interface Props {
 
 export function LineItemsTable({ items, currency }: Props) {
   if (!items || items.length === 0) {
-    return (
-      <div className="text-sm text-neutral-400 py-3">No line items</div>
-    );
+    return <div className="text-sm text-slate-400 py-3">No line items</div>;
   }
 
   return (
-    <div className="border border-neutral-200 rounded-lg overflow-hidden">
+    <div className="border border-slate-200 rounded-lg overflow-hidden">
       <table className="w-full text-sm">
-        <thead className="bg-neutral-50 text-xs uppercase tracking-wide text-neutral-500">
+        <thead className="bg-slate-50">
           <tr>
-            <th className="text-left px-3 py-2 font-medium">Description</th>
-            <th className="text-right px-3 py-2 font-medium">Amount</th>
+            <th className="text-left px-4 py-2.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              Description
+            </th>
+            <th className="text-right px-4 py-2.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+              Amount
+            </th>
           </tr>
         </thead>
         <tbody>
           {items.map((item, i) => (
-            <tr key={i} className="border-t border-neutral-100">
-              <td className="px-3 py-2 text-neutral-800">{item.description}</td>
-              <td className="px-3 py-2 text-right text-neutral-800 font-mono">
+            <tr key={i} className="border-t border-slate-100">
+              <td className="px-4 py-2.5 text-slate-800">{item.description}</td>
+              <td className="px-4 py-2.5 text-right text-slate-800 font-mono tabular-nums">
                 {formatCurrency(item.amount, currency)}
               </td>
             </tr>
