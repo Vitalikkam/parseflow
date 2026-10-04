@@ -12,9 +12,10 @@ export default function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/documents" element={<Documents />} />
-          <Route path="/documents/:id" element={<DocumentAnalysis />} />
           <Route path="/api" element={<ApiDocs />} />
         </Route>
+        {/* Full-width, no sidebar */}
+        <Route path="/documents/:id" element={<DocumentAnalysis />} />
       </Routes>
     </BrowserRouter>
   );

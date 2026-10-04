@@ -124,7 +124,6 @@ def get_document_file(
     return FileResponse(
         file_path,
         media_type="application/pdf",
-        filename=doc.filename,
     )
 
 
