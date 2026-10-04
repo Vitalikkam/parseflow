@@ -2,6 +2,7 @@ import uuid
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -108,6 +109,23 @@ def get_document(document_id: uuid.UUID, db: Session = Depends(get_db)) -> Docum
     if doc is None:
         raise HTTPException(404, "Document not found")
     return doc
+
+
+@router.get("/{document_id}/file")
+def get_document_file(
+    document_id: uuid.UUID, db: Session = Depends(get_db)
+) -> FileResponse:
+    doc = db.get(Document, document_id)
+    if doc is None:
+        raise HTTPException(404, "Document not found")
+    file_path = Path(settings.storage_path) / f"{doc.id}.pdf"
+    if not file_path.exists():
+        raise HTTPException(404, "File missing from storage")
+    return FileResponse(
+        file_path,
+        media_type="application/pdf",
+        filename=doc.filename,
+    )
 
 
 @router.get("/{document_id}/text")
