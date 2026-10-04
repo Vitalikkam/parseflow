@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from app.models.document import Document
 from app.services.llm import extract_invoice
 from app.services.pdf import PdfError, extract_text
+from app.services.validation import validate_invoice
 
 
 class PipelineError(Exception):
@@ -13,7 +14,6 @@ class PipelineError(Exception):
 
 
 def process_document(doc_id: str, pdf_path: Path, db: Session) -> Document:
-    """Run the full extraction pipeline for an already-persisted document."""
     doc = db.get(Document, doc_id)
     if doc is None:
         raise PipelineError(f"Document {doc_id} not found")
@@ -24,18 +24,18 @@ def process_document(doc_id: str, pdf_path: Path, db: Session) -> Document:
         doc.status = "processing"
         db.commit()
 
-        # 1. Extract text
         text, page_count = extract_text(pdf_path)
         doc.raw_text = text
         doc.page_count = page_count
         db.commit()
 
-        # 2. LLM extraction
         structured = extract_invoice(text)
         doc.structured_data = structured
         doc.document_type = structured.get("document_type", "invoice")
 
-        # 3. Mark done
+        validation = validate_invoice(structured)
+        doc.validation_result = validation
+
         doc.status = "processed"
         doc.processing_ms = int((time.perf_counter() - started) * 1000)
         db.commit()
