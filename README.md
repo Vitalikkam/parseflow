@@ -40,37 +40,6 @@ Upload a PDF invoice. ParseFlow:
 
 ---
 
-## Architecture
-┌──────────────────┐
-│ React + Vite │ Vercel
-│ TypeScript │
-└────────┬─────────┘
-│ HTTPS
-▼
-┌──────────────────┐
-│ FastAPI │ Render
-│ + Uvicorn │
-└────────┬─────────┘
-│
-┌────┼──────────┬──────────────┐
-▼ ▼ ▼ ▼
-┌────────┐ ┌──────────┐ ┌────────────┐
-│PyMuPDF │ │ Gemini │ │ PostgreSQL │
-│ text │ │ struct. │ │ │
-│ ext. │ │ output │ │ │
-└────────┘ └──────────┘ └────────────┘
-│
-▼
-Deterministic validation
-13 checks, weighted score
-│
-▼
-Structured JSON + per-field status
-
-
-
----
-
 ## Stack
 
 **Backend**
